@@ -1,16 +1,18 @@
 #include <stdio.h>
-int Search(int arr[], int l, int r, int x) {
-    if (r >= l) {
-        int mid = l + (r - l) / 2;
-        if (arr[mid] == x) return mid;
-        if (arr[mid] > x)
-            return Search(arr, l, mid - 1, x);
-        return Search(arr, mid + 1, r, x);
-    }
-    return -1;
+int Search(int arr[], int lo, int hi, int x) {
+	int pos;
+    if (lo <= hi && x >= arr[lo] && x <= arr[hi]) {
+        pos = lo + (((double)(hi - lo) / (arr[hi] - arr[lo]))
+				* (x - arr[lo]));
+
+		if (arr[pos] == x) return pos;
+		if (arr[pos] < x) Search(arr, pos + 1, hi, x);
+        return Search(arr, lo, pos - 1, x);
+	}
+	return -1;
 }
-  
-int main() {
+
+int main(){
     printf("Enter the size of array : ");
     int n; scanf("%d", &n);
     int arr[n];
@@ -23,5 +25,5 @@ int main() {
     (result == -1)
         ? printf("Element is not present in array")
         : printf("Element is present at index %d", result);
-    return 0;
+	return 0;
 }
