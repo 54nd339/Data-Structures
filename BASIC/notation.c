@@ -3,30 +3,30 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <math.h>
-struct Stack{
+typedef struct stack{
 	int top;
 	unsigned capacity;
-	float* array;
-};
-struct Stack* createStack( unsigned capacity ){
-	struct Stack* new = malloc(sizeof(struct Stack));
+	float *array;
+}Stack;
+Stack *createStack( unsigned capacity ){
+	Stack *new = malloc(sizeof(Stack));
 	new->top = -1; new->capacity = capacity;
 	new->array = calloc(new->capacity , sizeof(float));
 	if (!new->array) return NULL; return new;
 }
 
-int isEmpty(struct Stack* stack){
+int isEmpty(Stack *stack){
 	return stack->top == -1 ;
 }
-float peek(struct Stack* stack){
+float peek(Stack *stack){
 	return stack->array[stack->top];
 }
-float pop(struct Stack* stack){
+float pop(Stack *stack){
 	if (!isEmpty(stack))
 		return stack->array[stack->top--] ;
 	return '$';
 }
-void push(struct Stack *stack, float op){
+void push(Stack *stack, float op){
 	stack->array[++stack->top] = op;
 }
 
@@ -45,7 +45,7 @@ int Prec(char ch){
 	}
 	return -1;
 }
-void applyOP(struct Stack *stack, float val1, char ch, float val2){
+void applyOP(Stack *stack, float val1, char ch, float val2){
 	switch (ch) {
         case '+': push(stack, val1 + val2); break;
         case '-': push(stack, val1 - val2); break;
@@ -56,9 +56,9 @@ void applyOP(struct Stack *stack, float val1, char ch, float val2){
 }
 
 float evaluateInfix(char *exp){
-	struct Stack *values=createStack(strlen(exp));
-	struct Stack *ops=createStack(strlen(exp));
-	int l=strlen(exp);
+	Stack *values = createStack(strlen(exp));
+	Stack *ops = createStack(strlen(exp));
+	int l = strlen(exp);
     for(int i = 0; i < l; i++){
 		if(exp[i] == ' ') continue;
 		else if(exp[i] == '(')
@@ -102,16 +102,16 @@ float evaluateInfix(char *exp){
      
     return pop(values);
 }
-float evaluatePostfix(char* exp){
-	struct Stack *stack = createStack(strlen(exp));
-	int i,num,sum;
+float evaluatePostfix(char *exp){
+	Stack *stack = createStack(strlen(exp));
+	int i, num, sum;
 	if (!stack) return -1;
 
 	for (i = 0; exp[i]; ++i){
-		if(exp[i]==' ') continue;
+		if(exp[i] == ' ') continue;
 		else if (isdigit(exp[i])){
-			for(num=0;isdigit(exp[i]);i++)
-				num=num*10 + (exp[i]-'0');
+			for(num=0; isdigit(exp[i]); i++)
+				num = num*10 + (exp[i]-'0');
 			i--;
 			push(stack,num);
         }
@@ -123,9 +123,9 @@ float evaluatePostfix(char* exp){
 	return pop(stack);
 }
 float evaluatePrefix(char *exp){
-    struct Stack *stack = createStack(strlen(exp));
+    Stack *stack = createStack(strlen(exp));
     for (int i = strlen(exp) - 1; i >= 0; i--) {
-		if(exp[i]==' ') continue;
+		if(exp[i] == ' ') continue;
 		if (isdigit(exp[i])) {
 			float num = 0, j = i;
             while (i < strlen(exp) && isdigit(exp[i]))
@@ -133,40 +133,40 @@ float evaluatePrefix(char *exp){
             i++;
  
             for (int k = i; k <= j; k++)
-                num = num * 10 + (exp[k] - '0');
-			push(stack,num);
+                num = num  *10 + (exp[k] - '0');
+			push(stack, num);
         }
         else {
 			float val1 = pop(stack), val2 = pop(stack);
-            applyOP(stack,val1,exp[i],val2);
+            applyOP(stack, val1, exp[i], val2);
         }
     }
 	return pop(stack);
 }
 
 char *reverse(char *exp){
-    int l=strlen(exp);
-    char *out=malloc(l*sizeof(char));
-    out[l]='\0';
-    for(int i=0,j=l-1;exp[i];i++,j--){
-        char ch=exp[i];
-        if(ch=='(') out[j]=')';
-        else if(ch==')') out[j]='(';
-        else out[j]=ch;
+    int l = strlen(exp);
+    char *out = malloc(l*sizeof(char));
+    out[l] = '\0';
+    for(int i=0,j=l-1; exp[i]; i++,j--){
+        char ch = exp[i];
+        if(ch == '(') out[j] = ')';
+        else if(ch == ')') out[j] = '(';
+        else out[j] = ch;
     }
     return out;
 }
 char *infixToPostfix(char *exp){
-	int l = strlen(exp), i=0, k=-1;;
-	struct Stack *stack = createStack(l);
+	int l = strlen(exp), i = 0, k = -1;;
+	Stack *stack = createStack(l);
 	if(!stack) return NULL ;
-    char *out=malloc(l*sizeof(char));
+    char *out = malloc(l*sizeof(char));
 	while(exp[i]){
-		if(exp[i]==' ') i++;
+		if(exp[i] == ' ') i++;
         else if (isalnum(exp[i]))
 			out[++k] = exp[i++];
         else if (exp[i] == '(')
-			push(stack,exp[i++]);
+			push(stack, exp[i++]);
         else if (exp[i] == ')'){
 			while (!isEmpty(stack) && peek(stack) != '(')
 				out[++k] = pop(stack);
@@ -179,7 +179,7 @@ char *infixToPostfix(char *exp){
 		else{
 			while (!isEmpty(stack) && Prec(exp[i]) <= Prec(peek(stack)))
 				out[++k] = pop(stack);
-			push(stack,exp[i++]);
+			push(stack, exp[i++]);
 		}
 	}
 
@@ -192,7 +192,7 @@ char *infixToPrefix(char *exp){
     return reverse(infixToPostfix(reverse(exp)));
 }
 
-void convert(struct Stack* stack,char *exp,char *out,int i,int *j){
+void convert(Stack *stack, char *exp, char *out, int i, int *j){
 	if(exp[i] == ' ') return;
 	else if (isalnum(exp[i])){
 		out[(*j)++] = exp[i];
@@ -203,18 +203,18 @@ void convert(struct Stack* stack,char *exp,char *out,int i,int *j){
 	}
 	else push(stack,exp[i]);
 }
-void convert2(struct Stack* stack,char *exp,char *out,int i,int *j){
-	if(exp[i]==' ') return;
+void convert2(Stack *stack, char *exp, char *out, int i, int *j){
+	if(exp[i] == ' ') return;
     else if (isalnum(exp[i])){
-		out[(*j)++]=exp[i];
-		if(!isEmpty(stack)) out[(*j)++]=pop(stack);
+		out[(*j)++] = exp[i];
+		if(!isEmpty(stack)) out[(*j)++] = pop(stack);
 	}
 	else push(stack, exp[i]);
 }
 
 char *postfixToPrefix(char *exp){
 	int l = strlen(exp), i, j=0;
-	struct Stack *stack = createStack(l);
+	Stack *stack = createStack(l);
 	char *out = malloc(l*sizeof(char));
 	for (i = l - 1; i >= 0; i--)
 		convert(stack,exp,out,i,&j);
@@ -222,30 +222,30 @@ char *postfixToPrefix(char *exp){
 	return strrev(out);
 }
 char *postfixToInfix(char *exp){
-	int l=strlen(exp), i, j=0;
-	struct Stack *stack = createStack(l);
+	int l = strlen(exp), i, j=0;
+	Stack *stack = createStack(l);
 	char *out = malloc(2*l*sizeof(char));
 	for(i = l - 1; i >= 0; i--)
-		convert2(stack,exp,out,i,&j);
+		convert2(stack, exp, out, i, &j);
 	out[j] = '\0';
 	return strrev(out);
 }
 
 char *prefixToPostfix(char *exp){
 	int l = strlen(exp), i, j=0;
-	struct Stack *stack = createStack(l);
+	Stack *stack = createStack(l);
 	char *out = malloc(l*sizeof(char));
-	for(i=0;i<l;i++)
-		convert(stack,exp,out,i,&j);
+	for(i=0; i<l; i++)
+		convert(stack, exp, out, i, &j);
 	out[j] = '\0';
 	return out;
 }
 char *prefixToInfix(char *exp){
 	int l=strlen(exp), i, j=0;
-	struct Stack *stack = createStack(l);
+	Stack *stack = createStack(l);
 	char *out = malloc(2*l*sizeof(char));
 	for(i=0; i<l; i++)
-		convert2(stack,exp,out,i,&j);
+		convert2(stack, exp, out, i, &j);
 	out[j] = '\0';
 	return strrev(out);
 }

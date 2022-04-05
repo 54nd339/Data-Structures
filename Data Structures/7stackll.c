@@ -4,7 +4,7 @@ typedef struct SNode{
     int data;
     struct SNode* link;
 }Stack;
-int popped,count=0;
+int popped, count = 0;
 
 void push(Stack **stack, int data){
     Stack *new = malloc(sizeof(Stack));
@@ -34,9 +34,9 @@ void display(Stack *stack){
 }
 void delete(Stack **stack, int i, int pos){
     if(*stack){
-        int temp=pop(stack);
+        int temp = pop(stack);
         delete(stack,i+1,pos);
-        if(i!=pos) push(stack, temp);
+        if(i != pos) push(stack, temp);
     }
 }
 
@@ -44,14 +44,14 @@ void insbot(Stack **stack, int item){
     if(!*stack)
         push(stack,item);
     else{
-        int temp=pop(stack);
+        int temp = pop(stack);
         insbot(stack, item);
         push(stack, temp);
     }
 }
 void reverse(Stack **stack){
     if(*stack){
-        int item=pop(stack);
+        int item = pop(stack);
         reverse(stack);
         insbot(stack, item);
     }
@@ -81,19 +81,19 @@ int main(){
     while(1){
         printf("\nEnter your choice : ");
         scanf("%d",&ch);
-        if(ch==1){
+        if(ch == 1){
             printf("Enter the value : ");
             scanf("%d",&in);
             push(&stack, in);
         }
-        else if(ch==2){
+        else if(ch == 2){
             int del=pop(&stack);
             printf("%d popped\n",del);
         }
-        else if(ch==3) display(stack);
-        else if(ch==4) reverse(&stack);
-        else if(ch==5) sort(&stack);
-        else if(ch==6){
+        else if(ch == 3) display(stack);
+        else if(ch == 4) reverse(&stack);
+        else if(ch == 5) sort(&stack);
+        else if(ch == 6){
             int ind;
             printf("Enter index to be deleted : ");
             scanf("%d",&ind);
@@ -101,7 +101,7 @@ int main(){
                 printf("Index out of bounds\n");
             delete(&stack,0,ind);
         }
-        else if(ch==0) break;
+        else if(ch == 0) break;
         else printf("Please Enter valid choice\n");
         if(!stack) printf("Empty\n");
         else printf("Top element is %d\n", stack->data);

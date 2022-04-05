@@ -8,16 +8,6 @@ typedef struct node {
 	struct node *child[MAX+1];
 }Node;
 
-// Searches value in the node
-Node *search(int val, Node *root, int *pos) {
-    if (root == NULL) return NULL;
-	else {
-        if (searchnode(val, root, pos))
-			return root;
-        else
-			return search(val, root->child[*pos], pos);
-	}
-}
 //searches the node
 int searchnode(int val, Node *n, int *pos) {
     if (val < n->value[1]) {
@@ -29,6 +19,16 @@ int searchnode(int val, Node *n, int *pos) {
         while ((val < n->value[*pos]) && *pos > 1)
 			(*pos)--;
 		return (val == n->value[*pos]) ? 1 : 0;
+	}
+}
+// Searches value in the node
+Node *search(int val, Node *root, int *pos) {
+    if (root == NULL) return NULL;
+	else {
+        if (searchnode(val, root, pos))
+			return root;
+        else
+			return search(val, root->child[*pos], pos);
 	}
 }
 
@@ -258,7 +258,7 @@ int main(){
         else if(ch == 2){
 			printf("Enter Data to be deleted: ");
 			scanf("%d", &in);
-			root = deleteNode(in, root);
+			root = del(in, root);
 		}
 		else if(ch == 3){
             

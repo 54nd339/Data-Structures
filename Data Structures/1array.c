@@ -1,101 +1,97 @@
 #include<stdio.h>
 #include<stdlib.h>
-int n,i,pos;
-int *create(int *ar,int x){
+int *create(int *ar, int n){
     printf("Enter elements : ");
-    for(i=0; i<x; i++)
+    for(int i=0; i<n; i++)
         scanf("%d",ar+i);
     return ar;
 }
-void print(int *ar){
-    for(i=0; i<n; i++)
+void print(int *ar, int n){
+    for(int i=0; i<n; i++)
         printf("%d ",*(ar+i));
 }
 void swap(int *x, int *y){
-    int temp=*x;
-    *x=*y;
-    *y=temp;
+    int temp = *x;
+    *x = *y;
+    *y = temp;
 }
-void insert(int *ar){
-    n++; ar=realloc(ar,n*sizeof(int));
-    int new;
+void insert(int *ar, int n){
+    ar = realloc(ar, (++n)*sizeof(int));
     printf("Enter the index and element : ");
-    scanf("%d",&pos);
-    scanf("%d",&new);
-    for(i=0; i<n; i++)
-        if(i>=pos)
-            swap(&new,ar+i);
+    int pos; scanf("%d",&pos);
+    int new; scanf("%d",&new);
+    for(int i=0; i<n; i++)
+        if(i >= pos)
+            swap(&new, ar+i);
     printf("After Insertion : ");
-    print(ar);
+    print(ar, n);
 }
-void delete(int *ar){
+void delete(int *ar, int n){
     printf("Enter the index : ");
-    scanf("%d",&pos);
-    for(i=0; i<n-1; i++)
-        if(i>=pos)
+    int pos; scanf("%d",&pos);
+    for(int i=0; i<n-1; i++)
+        if(i >= pos)
             swap(ar+i,ar+i+1);
-    n--; ar=realloc(ar,n*sizeof(int));;
+    ar = realloc(ar, (--n)*sizeof(int));;
     printf("After Deletion : ");
-    print(ar);
+    print(ar, n);
 }
-void search(int *ar){
+void search(int *ar, int n){
     printf("Enter element to be searched : ");
-    scanf("%d",&pos);
-    for(i=0; i<n; i++)
-        if(*(ar+i)==pos){
+    int pos; scanf("%d",&pos);
+    for(int i=0; i<n; i++)
+        if(*(ar+i) == pos){
             printf("Found at index : %d",i);
             return;
         }
     printf("Element Not Found");
 }
-void update(int *ar){
-    int new;
+void update(int *ar, int n){
     printf("Enter the index and updated value : ");
-    scanf("%d",&pos);
-    scanf("%d",&new);
-    *(ar+pos)=new;
+    int pos; scanf("%d",&pos);
+    int new; scanf("%d",&new);
+    *(ar+pos) = new;
     printf("Updated Array : ");
-    print(ar);
+    print(ar, n);
 }
-void reverse(int *ar){
-    for(int i=0;i<n/2;i++)
-        swap(ar+i,ar+n-1-i);
+void reverse(int *ar, int n){
+    for(int i=0; i<n/2; i++)
+        swap(ar+i, ar+n-1-i);
     printf("Reverse Array : ");
-    print(ar);
+    print(ar, n);
 }
-void sort(int *ar){
-    for(i=0;i<n;i++){
-        int flag=0;
-        for(int j=0;j<n-i-1;j++){
-            if(ar+j>ar+j+1){
+void sort(int *ar, int n){
+    for(int i=0; i<n; i++){
+        int flag = 0;
+        for(int j=0; j<n-i-1; j++){
+            if(ar+j > ar+j+1){
                 swap(ar+j, ar+j+1);
-                flag=1;
+                flag = 1;
             }
         }
         if(flag==0) break;
     }
     printf("Sorted Array : ");
-    print(ar);
+    print(ar, n);
 }
-int merge(int *ar){
-    int m, *arr1;
+int merge(int *ar, int n){
     printf("Enter no. of elements : ");
-    scanf("%d",&m);
-    arr1=malloc(m*sizeof(int));
-    arr1=create(arr1,m);
-    i=n; n+=m; 
-    ar=realloc(ar,n*sizeof(int));
-    for(int j=0;i<n;i++,j++)
-        *(ar+i)=*(arr1+j);
+    int m; scanf("%d",&m);
+    int *arr1 = malloc(m*sizeof(int));
+    arr1 = create(arr1,m);
+    int i = n; n += m; 
+    ar = realloc(ar,n*sizeof(int));
+    for(int j=0; i<n; i++, j++)
+        *(ar+i) = *(arr1+j);
     printf("Merged Array : ");
-    print(ar);
+    print(ar, n);
 }
 int main(){
     printf("Enter no. of elements : ");
-    scanf("%d",&n);
-    int ch, *arr=malloc(n*sizeof(int));
-    arr=create(arr,n);
-    print(arr);
+    int n; scanf("%d",&n);
+    int ch, *arr = malloc(n*sizeof(int));
+    arr = create(arr,n);
+    print(arr, n);
     printf("\n1. Insert an element");
     printf("\n2. Delete an element");
     printf("\n3. Search an element");
@@ -107,14 +103,14 @@ int main(){
     while(1){
         printf("\n\nEnter Choice : ");getchar();
         scanf("%d",&ch);
-        if(ch==1) insert(arr);
-        else if(ch==2) delete(arr);
-        else if(ch==3) search(arr);
-        else if(ch==4) update(arr);
-        else if(ch==5) reverse(arr);
-        else if(ch==6) sort(arr);
-        else if(ch==7) merge(arr);
-        else if(ch==0) break;
+        if(ch == 1) insert(arr, n);
+        else if(ch == 2) delete(arr, n);
+        else if(ch == 3) search(arr, n);
+        else if(ch == 4) update(arr, n);
+        else if(ch == 5) reverse(arr, n);
+        else if(ch == 6) sort(arr, n);
+        else if(ch == 7) merge(arr, n);
+        else if(ch == 0) break;
         else printf("Wrong Input\n");
     }
     return 0;

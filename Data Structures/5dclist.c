@@ -1,178 +1,181 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct node{
+typedef struct node{
     int data;
     struct node *prev, *next;
-}*head,*tail;
-int count=0;
-struct node *newNode(int info){
-    struct node *new=malloc(sizeof(struct node));
-    new->data=info; count++;
-    new->prev= new->next = NULL;
+}Node;
+typedef struct {
+    int count;
+    Node *head,*tail;
+}LL;
+Node *newNode(LL *list, int info){
+    Node *new = malloc(sizeof(Node));
+    new->data = info; list->count++;
+    new->prev = new->next = NULL;
     return new;
 }
-int indch(int pos){
-    if(pos<0 || pos>count){
+int indch(LL *list, int pos){
+    if(pos<0 || pos>list->count){
         printf("Index out of bound\n");
         return 1;
     }
     return 0;
 }
-int isNull(){
-    if(head) return 0;
+int isNull(LL *list){
+    if(list->head) return 0;
     printf("Empty list\n");
     return 1;
 }
 
-void display(){
-    if(isNull()) return;
-    struct node *temp=head;
+void display(LL *list){
+    if(isNull(list)) return;
+    Node *temp = list->head;
     printf("List (from start) : ");
     do{
         printf("%d ",temp->data);
-        temp=temp->next;
-    }while(temp!=head);
+        temp = temp->next;
+    }while(temp != list->head);
     printf("\n");
     
-    temp=tail;
-    if(isNull()) return;
+    temp = list->tail;
     printf("List (from end) : ");
     do{
         printf("%d ",temp->data);
-        temp=temp->prev;
-    }while(temp!=tail);
+        temp = temp->prev;
+    }while(temp != list->tail);
     printf("\n");
 }
-void create(){
-    head=tail=NULL; int info;
+LL *create(LL *list){
     printf("Input (-1 to exit) : ");
     while(1){
-        scanf("%d",&info);
-        if(info==-1) break;
-        struct node *new=newNode(info);
-        if(head==NULL) head=new;
+        int info; scanf("%d",&info);
+        if(info == -1) break;
+        Node *new = newNode(list, info);
+        if(!(list->head)) list->head = new;
         else{
-            tail->next=new;
-            new->prev=tail;
-        } tail=new;
-        tail->next=head;
-        head->prev=tail;
+            list->tail->next = new;
+            new->prev = list->tail;
+        } list->tail = new;
+        list->tail->next = list->head;
+        list->head->prev = list->tail;
     }
-    display();
+    display(list); return list;
 }
 
-void insert(int info, int ind){
-    if(indch(ind)) return;
-    struct node *new=newNode(info);
-    if(head==NULL) head=new;
-    else if(ind==0) {
-        new->next=head; 
-        head->prev=new;
-        head=new;
+LL *insert(LL *list, int info, int ind){
+    if(indch(list, ind)) return list;
+    Node *new = newNode(list, info);
+    if(!(list->head)) list->head = new;
+    else if(ind == 0) {
+        new->next = list->head; 
+        list->head->prev = new;
+        list->head = new;
     }
-    else if(ind==count-1){
-        tail->next=new;
-        new->prev=tail;
-        tail=new;
+    else if(ind == list->count-1){
+        list->tail->next = new;
+        new->prev = list->tail;
+        list->tail = new;
     }
     else {
-        struct node *temp=head;
-        for(int i=1;i<=ind;i++)
-            temp=temp->next;
-        temp->prev->next=new;
-        new->prev=temp->prev;
-        temp->prev=new;
-        new->next=temp;
+        Node *temp = list->head;
+        for(int i=1; i<=ind; i++)
+            temp = temp->next;
+        temp->prev->next = new;
+        new->prev = temp->prev;
+        temp->prev = new;
+        new->next = temp;
     }
-    tail->next=head;
-    head->prev=tail;
-    display();
+    list->tail->next = list->head;
+    list->head->prev = list->tail;
+    display(list); return list;
 }
-void delete(int ind){
-    if(isNull()) return;
-    if(indch(ind+1)) return;
-    struct node *temp=head;
-    if(head==tail) head=NULL;
-    else if(ind==0)
-        head=temp->next;
-    else if(ind==count-1){
-        temp=tail;
-        tail=temp->prev;
+LL *delete(LL *list, int ind){
+    if(isNull(list)) return list;
+    if(indch(list, ind+1)) return list;
+    Node *temp = list->head;
+    if(list->head == list->tail) list->head = NULL;
+    else if(ind == 0)
+        list->head = temp->next;
+    else if(ind == list->count-1){
+        temp = list->tail;
+        list->tail = temp->prev;
     }
     else {
-        for(int i=1;i<=ind;i++) 
-            temp=temp->next;
-        temp->prev->next=temp->next;
-        temp->next->prev=temp->prev;
+        for(int i=1; i<=ind; i++) 
+            temp = temp->next;
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
     }
-    tail->next=head; head->prev=tail;
+    list->tail->next = list->head;
+    list->head->prev = list->tail;
     printf("Element Deleted : %d\n",temp->data);
-    free(temp); count--; display(*head); 
+    list->count--; display(list); 
 }
 
-int search(int info){
-    if(isNull(head)) return -1;
-    struct node *temp=head; int i=0;
+int search(LL *list, int info){
+    if(isNull(list)) return -1;
+    Node *temp = list->head; int i = 0;
     do{
-        if(temp->data==info) return i;
-        temp=temp->next; i++;
-    }while(temp!=head);
+        if(temp->data == info) return i;
+        temp = temp->next; i++;
+    }while(temp != list->head);
     return -1;
 }
-void update(int info, int ind){
-    if(isNull()) return;
-    if(indch(ind+1)) return;
-    struct node *temp=head;
-    for(int i=0;i<ind;i++)
-        temp=temp->next;
-    temp->data=info;
-    display();
+void update(LL *list, int info, int ind){
+    if(isNull(list)) return;
+    if(indch(list, ind+1)) return;
+    Node *temp = list->head;
+    for(int i=0; i<ind; i++)
+        temp = temp->next;
+    temp->data = info;
+    display(list);
 }
-void sort(){
-    if(isNull()) return;
-    struct node *index,*temp=head; int tmp;
+void sort(LL *list){
+    if(isNull(list)) return;
+    Node *index, *temp = list->head; int tmp;
     do{
-        index=temp->next;  
-        while(index!=head) {
+        index = temp->next;  
+        while(index != list->head) {
             if(temp->data > index->data) {  
-                tmp=temp->data;  
-                temp->data=index->data;  
-                index->data=tmp;  
+                tmp = temp->data;  
+                temp->data = index->data;  
+                index->data = tmp;  
             }  
-            index=index->next;
+            index = index->next;
         }
-        temp=temp->next;  
-    }while(temp->next!=head);   
-    display();
+        temp = temp->next;  
+    }while(temp->next != list->head);   
+    display(list);
 }
 
-void reverse(){
-    if(isNull()) return;
-    int n=count,i,tmp;
-    struct node *tmph=head, *tmpt=tail;
-    for(i=0;i<n/2;i++){
-        tmp=tmph->data;
-        tmph->data=tmpt->data;
-        tmpt->data=tmp;
-        tmph=tmph->next;
-        tmpt=tmpt->prev;
+void reverse(LL *list){
+    if(isNull(list)) return;
+    int n = list->count, tmp;
+    Node *tmph = list->head, *tmpt = list->tail;
+    for(int i=0; i<n/2; i++){
+        tmp = tmph->data;
+        tmph->data = tmpt->data;
+        tmpt->data = tmp;
+        tmph = tmph->next;
+        tmpt = tmpt->prev;
     }
-    display();
+    display(list);
 }
-void rotate(int k){
-    struct node *temp=head;
-    for(int i=1;i<k;i++)
-        temp=temp->next;
-    tail=temp; head=temp->next;
-    display();
+void rotate(LL *list, int k){
+    Node *temp = list->head;
+    for(int i=1; i<k; i++)
+        temp = temp->next;
+    list->tail = temp;
+    list->head = temp->next;
+    display(list);
 }
-void remDup(){
-    struct node *t1=head;
-    while (t1->next!=head){
-        struct node *t2=t1;
-        while(t2->next!=head){
-            if (t1->data==t2->next->data) {
-                struct node *dup = t2->next;
+void remDup(LL *list){
+    Node *t1 = list->head;
+    while (t1->next != list->head){
+        Node *t2 = t1;
+        while(t2->next != list->head){
+            if (t1->data == t2->next->data) {
+                Node *dup = t2->next;
                 t2->next = dup->next;
                 dup->next->prev = t2;
                 free(dup);
@@ -181,13 +184,16 @@ void remDup(){
         }
         t1 = t1->next;
     }
-    tail->next=head;
-    head->prev=tail;
-    display();
+    list->tail->next = list->head;
+    list->head->prev = list->tail;
+    display(list);
 }
 
 int main(){
-    int ch, info, pos;
+    LL *list; int ch, info, pos;
+    list = malloc(sizeof(LL));
+    list->head = list->tail = NULL;
+    list->count = 0;
     printf("\n1. Create a list");
     printf("\n2. Insert an element");
     printf("\n3. Delete an element");
@@ -203,45 +209,45 @@ int main(){
     while(1){
         printf("\nEnter Choice : ");
         scanf("%d",&ch);
-        if(ch==1) create();
-        else if(ch==2) {
+        if(ch == 1) list = create(list);
+        else if(ch == 2) {
             printf("Enter data & index : ");
             scanf("%d%d",&info,&pos);
-            insert(info, pos);
+            list = insert(list, info, pos);
         }
-        else if(ch==3) {
+        else if(ch == 3) {
             printf("Enter index : ");
             scanf("%d",&pos);
-            delete(pos);
+            list = delete(list, pos);
         }
-        else if(ch==4) {
+        else if(ch == 4) {
             printf("Enter element : ");
             scanf("%d",&info);
-            pos=search(info);
-            if(pos!=-1)
+            pos = search(list, info);
+            if(pos != -1)
                 printf("Found at index :%d\n",pos);
             else
                 printf("Element not found\n");
         }
-        else if(ch==5) {
+        else if(ch == 5) {
             printf("Enter data & index : ");
             scanf("%d%d",&info,&pos);
-            update(info, pos);
+            update(list, info, pos);
         }
-        else if(ch==6) sort();
-        else if(ch==7) reverse();
-        else if(ch==8) {
+        else if(ch == 6) sort(list);
+        else if(ch == 7) reverse(list);
+        else if(ch == 8) {
             printf("Enter the shift : ");
-            scanf("%d",&info); info%=count;
-            rotate(info);
+            scanf("%d",&info); info %= list->count;
+            rotate(list, info);
         }
-        else if(ch==9) remDup();
-        else if(ch==10) {
+        else if(ch == 9) remDup(list);
+        else if(ch == 10) {
             printf("Enter key : ");
             scanf("%d",&info);
-            delete(search(info));
+            delete(list, search(list, info));
         }
-        else if(ch==0) break;
+        else if(ch == 0) break;
         else printf("Wrong Input\n");
     }
     return 0;

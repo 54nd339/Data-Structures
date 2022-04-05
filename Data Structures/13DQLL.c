@@ -107,24 +107,24 @@ void IRD(){
     while(1){  
         printf("\nEnter your choice : ");
         scanf("%d",&ch);
-        if(ch==1){
+        if(ch == 1){
             printf("Enter the value : ");
             scanf("%d",&num);
             insertrear(q, num);
         }
-        else if (ch==2){
-            int val=deletefront(q);
-            if(val!=-1)
+        else if (ch == 2){
+            int val = deletefront(q);
+            if(val != -1)
                 printf("Dequeued Element : %d\n",val);
         }
-        else if (ch==3){
-            int val=deleterear(q);
-            if(val!=-1)
+        else if (ch == 3){
+            int val = deleterear(q);
+            if(val != -1)
                 printf("Dequeued Element : %d\n",val);
         }
-        else if (ch==4) peek(q);
-        else if (ch==5) display(q);
-        else if (ch==0) break;
+        else if (ch == 4) peek(q);
+        else if (ch == 5) display(q);
+        else if (ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
 }
@@ -136,37 +136,36 @@ void ORD(){
     while(1){  
         printf("\nEnter your choice : ");
         scanf("%d",&ch);
-        if(ch==1){
+        if(ch == 1){
             printf("Enter the value : ");
             scanf("%d",&num);
             insertrear(q, num);
         }
-        else if (ch==2){
+        else if (ch == 2){
             printf("Enter the value : ");
             scanf("%d",&num);
             insertfront(q, num);
         }
-        else if (ch==3){
-            int val=deletefront(q);
-            if(val!=-1)
+        else if (ch == 3){
+            int val = deletefront(q);
+            if(val != -1)
                 printf("Dequeued Element : %d\n",val);
         }
-        else if (ch==4) peek(q);
-        else if (ch==5) display(q);
-        else if (ch==0) break;
+        else if (ch == 4) peek(q);
+        else if (ch == 5) display(q);
+        else if (ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
 }
 
 int main(){
-	int ch;
-    printf("1. Input Restricted Deque\n");
+	printf("1. Input Restricted Deque\n");
     printf("2. Output Restricted Deque\n");
     printf("\nEnter your choice : ");
     check:
-    scanf("%d",&ch);
-    if(ch==1) IRD();
-    else if(ch==2) ORD();
+    int ch; scanf("%d",&ch);
+    if(ch == 1) IRD();
+    else if(ch == 2) ORD();
     else {
         printf("Please Enter valid choice : ");
         goto check;

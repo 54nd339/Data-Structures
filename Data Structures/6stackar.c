@@ -28,27 +28,27 @@ int pop(struct Stack *stack){
    
 int display(struct Stack *stack){
     if(stack->top == -1) printf("Stack is empty");
-    for(int i=stack->top;i>=0;i--)  
+    for(int i=stack->top; i>=0; i--)  
         printf("%d ",stack->arr[i]);
     printf("\n");
 }
 int main (){
-    struct Stack *stack=createStack(); int ch, val;
+    struct Stack *stack = createStack(); int ch, val;
     printf("1. Push\n2. Pop\n3. Display\n0. Exit\n");  
     while(1){  
         printf("\nEnter your choice : ");
         scanf("%d",&ch);  
-        if(ch==1) {
+        if(ch == 1) {
             printf("Enter the value : ");
             scanf("%d",&val);
             push(stack, val);
         }
-        else if(ch==2) {
+        else if(ch == 2) {
             int val=pop(stack);
             if(val!=-1) printf("%d popped\n",val);
         }
-        else if(ch==3) display(stack);
-        else if(ch==0) break;
+        else if(ch == 3) display(stack);
+        else if(ch == 0) break;
         else printf("Please Enter valid choice ");
         printf((stack->top!=-1)?"Element at top : %d\n"
             :"Empty\n",stack->arr[stack->top]);

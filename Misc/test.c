@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct node {
+typedef struct node {
     int data;
     struct node *prev, *next;
-};
+}Node;
 typedef struct List {
-    struct node *head, *tail;
+    Node *head, *tail;
 }LL;
-struct node *newNode(int info) {
-    struct node *new = malloc(sizeof(struct node));
+Node *newNode(int info) {
+    Node *new = malloc(sizeof(Node));
     new->data = info;
     new->prev = new->next = NULL;
     return new;
@@ -21,7 +21,7 @@ int isNull(LL *list) {
 
 void display(LL *list) {
     if(isNull(list)) return;
-    struct node *temp = list->head;
+    Node *temp = list->head;
     printf("List (from start) : ");
     do {
         printf("%d ",temp->data);
@@ -45,7 +45,7 @@ LL* create(LL *list){
     while(1) {
         scanf("%d",&info);
         if(info == -1) break;
-        struct node *new = newNode(info);
+        Node *new = newNode(info);
         if (list->head == NULL) list->head = new;
         else {
             list->tail->next = new;

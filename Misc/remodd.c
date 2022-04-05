@@ -15,20 +15,20 @@ void display(){
     }
 }
 struct node *newNode(int info){
-    struct node *new=malloc(sizeof(struct node));
-    new->data=info; new->link=NULL;
-    new->multiply=NULL; return new;
+    struct node *new = malloc(sizeof(struct node));
+    new->data = info; new->link = NULL;
+    new->multiply = NULL; return new;
 }
 void createList(){
     struct node *temp = start; int info;
     printf("Input (-1 to exit) : ");
     while(1){
         scanf("%d",&info);
-        if(info==-1) break;
-        struct node *new=newNode(info);
-        if(start==NULL) start=new;
-        else temp->link=new;
-        temp=new;
+        if(info == -1) break;
+        struct node *new = newNode(info);
+        if(start == NULL) start = new;
+        else temp->link = new;
+        temp = new;
     }
     printf("List :\n");
     display();
@@ -37,7 +37,7 @@ void point(){
     struct node *temp = start;
     while(temp->link){
         struct node *next = temp->link;
-        while(next!=NULL){
+        while(next != NULL){
             if(next->data % temp->data == 0){
                 temp->multiply = next; break;
             }

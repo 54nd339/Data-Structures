@@ -57,7 +57,7 @@ void display(struct Queue* q){
     do{
         printf("%d ",temp->key);
         temp = temp->link;
-    }while(temp!=q->front);
+    }while(temp != q->front);
     printf("\n");
 }
 void peek(struct Queue* q){
@@ -68,23 +68,22 @@ void peek(struct Queue* q){
 
 int main(){
 	struct Queue* q = createQueue();
-	int ch,in;
-    printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Peek\n0. Exit\n");
+	printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Peek\n0. Exit\n");
     while(1){
         printf("\nEnter your choice : ");
-        scanf("%d",&ch);
-        if(ch==1){
+        int ch; scanf("%d",&ch);
+        if(ch == 1){
             printf("Enter the value : ");
-            scanf("%d",&in);
+            int in; scanf("%d",&in);
             enQueue(q, in);
         }
-        else if(ch==2) {
-            in = deQueue(q); if(in!=-1)
+        else if(ch == 2) {
+            int in = deQueue(q); if(in!=-1)
             printf("Dequeued Element : %d\n",in);
         }
-        else if(ch==3) display(q);
-        else if(ch==4) peek(q);
-        else if(ch==0) break;
+        else if(ch == 3) display(q);
+        else if(ch == 4) peek(q);
+        else if(ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
     return 0;

@@ -43,7 +43,7 @@ int peek(Queue *head){
 }
 
 void display(Queue *head){
-    if (head==NULL){
+    if (head == NULL){
         printf("Empty Q\n"); return;
     }
     Queue *temp = head;
@@ -55,20 +55,20 @@ void display(Queue *head){
 }
 
 int main(){
-	Queue *q=NULL; int ch,in,p;
+	Queue *q = NULL;
     printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Peek\n0. Exit\n");
     while(1){
         printf("\nEnter your choice : ");
-        scanf("%d",&ch);
-        if(ch==1){
+        int ch; scanf("%d",&ch);
+        if(ch == 1){
             printf("Enter the value and priority : ");
-            scanf("%d%d",&in,&p);
+            int in, p; scanf("%d%d",&in,&p);
             enQueue(&q, in, p);
         }
-        else if(ch==2) deQueue(&q);
-        else if(ch==3) display(q);
-        else if(ch==4) peek(q);
-        else if(ch==0) break;
+        else if(ch == 2) deQueue(&q);
+        else if(ch == 3) display(q);
+        else if(ch == 4) peek(q);
+        else if(ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
     return 0;

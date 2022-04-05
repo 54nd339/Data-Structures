@@ -12,7 +12,7 @@ struct Queue *createQueue(int size){
 }
 
 int isEmpty(struct Queue *queue){
-    if(queue->front==-1){
+    if(queue->front == -1){
         printf("Queue underflow\n");
         return 1;
     }
@@ -56,39 +56,38 @@ void peek(struct Queue *queue){
 void display(struct Queue *queue){
     if(isEmpty(queue)) return;
     if(queue->rear >= queue->front)
-        for(int i=queue->front;i<=queue->rear;i++)
+        for(int i=queue->front; i<=queue->rear; i++)
             printf("%d ",queue->arr[i]);
     else{
-        for(int i=queue->front;i<queue->size;i++)
+        for(int i=queue->front; i<queue->size; i++)
             printf("%d ",queue->arr[i]);
-        for(int i=0;i<=queue->rear;i++)
+        for(int i=0; i<=queue->rear; i++)
             printf("%d ",queue->arr[i]);
     }
     printf("\n");
 }
 
 void main(){
-    int ch, num;
     printf("Enter size of the queue : ");
-    scanf("%d",&num);
+    int num; scanf("%d",&num);
     struct Queue *queue=createQueue(num);
     printf("1. Enqueue\n2. Dequeue\n3. Peek\n4. Display\n0. Exit\n");  
     while(1){  
         printf("\nEnter your choice : ");
-        scanf("%d",&ch);
-        if(ch==1){
+        int ch; scanf("%d",&ch);
+        if(ch == 1){
             printf("Enter the value : ");
             scanf("%d",&num);
             enQueue(queue, num);
         }
-        else if (ch==2){
-            int val=deQueue(queue);
-            if(val!=-1)
+        else if (ch == 2){
+            int val = deQueue(queue);
+            if(val != -1)
                 printf("Dequeued Element : %d\n",val);
         }
-        else if (ch==3) peek(queue);
-        else if (ch==4) display(queue);
-        else if (ch==0) break;
+        else if (ch == 3) peek(queue);
+        else if (ch == 4) display(queue);
+        else if (ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
 }

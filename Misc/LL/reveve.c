@@ -6,14 +6,14 @@ struct node{
 }*head, *rev, *temp;
 
 void display(struct node *start){
-    if(start==NULL){
+    if(start == NULL){
         printf("Empty node\n");
         return;
     }
-    temp=start;
+    temp = start;
     while(temp){
         printf("%d ",temp->data);
-        temp=temp->link;
+        temp = temp->link;
     }
 }
 
@@ -22,17 +22,17 @@ void create(){
     printf("Input(-1 to exit) : ");
     while(1){
         scanf("%d",&in);
-        if(in==-1) break;
-        new=malloc(sizeof(struct node));
-        temp=malloc(sizeof(struct node));
-        new->data=in; new->link=NULL;
-        temp->data=in; temp->link=NULL;
-        if(head==NULL){
-            head=new; rev=temp; tail=new;
+        if(in == -1) break;
+        new = malloc(sizeof(struct node));
+        temp = malloc(sizeof(struct node));
+        new->data = in; new->link = NULL;
+        temp->data = in; temp->link = NULL;
+        if(head == NULL){
+            head = new; rev = temp; tail = new;
         }
         else{
-            tail->link=new; tail=new;
-            temp->link=rev; rev=temp;
+            tail->link = new; tail = new;
+            temp->link = rev; rev = temp;
         }
     }
     printf("Input : ");
@@ -40,23 +40,23 @@ void create(){
 }
 
 void res(){
-    struct node *nxth,*nxtr,*tmph,*tmpr;
-    tmph=head;tmpr=rev;
-    nxth=head->link;nxtr=rev->link;
-    int flag=1;
+    struct node *nxth, *nxtr, *tmph, *tmpr;
+    tmph = head; tmpr = rev;
+    nxth = head->link; nxtr = rev->link;
+    int flag = 1;
     while(tmph->link){
         if(flag){
-            tmph->link=nxtr;
-            flag=0;
+            tmph->link = nxtr;
+            flag = 0;
         }
         else{
-            tmpr->link=nxth;
-            flag=1;
+            tmpr->link = nxth;
+            flag = 1;
         }
-        tmph=tmph->link;
-        tmpr=tmpr->link;
-        nxth=nxth->link;
-        nxtr=nxtr->link;
+        tmph = tmph->link;
+        tmpr = tmpr->link;
+        nxth = nxth->link;
+        nxtr = nxtr->link;
     }
     printf("\nOutput : ");
     display(head);
@@ -65,6 +65,6 @@ void res(){
 int main(){
     create();
     //display(rev);
-    (head==NULL)?printf("Empty List"):res();
+    (head == NULL) ? printf("Empty List") : res();
     return 0;
 }

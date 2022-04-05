@@ -172,7 +172,7 @@ int main () {
     while (1) {
         printf("\nEnter your choice : ");
         scanf("%d", &ch);
-        if(ch==1){
+        if(ch == 1){
             printf("Enter your input data (-1 to exit) : ");
             while(1){
 				scanf("%d", &data);
@@ -180,13 +180,13 @@ int main () {
 				insertion(&root, data);
 			}
         }
-        else if(ch==2){
+        else if(ch == 2){
             printf("Enter your input data:");
             scanf("%d", &data); delete(&root, data);
         }
-        else if(ch==3)
+        else if(ch == 3)
             traversal(root);
-        else if(ch==0) break;
+        else if(ch == 0) break;
         else printf("You have entered wrong option!!\n");
     }
 }

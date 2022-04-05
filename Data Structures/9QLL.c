@@ -69,18 +69,18 @@ int main(){
     while(1){
         printf("\nEnter your choice : ");
         scanf("%d",&ch);
-        if(ch==1){
+        if(ch == 1){
             printf("Enter the value : ");
             scanf("%d",&in);
             enQueue(q, in);
         }
-        else if(ch==2) {
+        else if(ch == 2) {
             in = deQueue(q); if(in!=-1)
             printf("Dequeued Element : %d\n",in);
         }
-        else if(ch==3) display(q);
-        else if(ch==4) peek(q);
-        else if(ch==0) break;
+        else if(ch == 3) display(q);
+        else if(ch == 4) peek(q);
+        else if(ch == 0) break;
         else printf("Please Enter valid choice\n");
     }
     return 0;

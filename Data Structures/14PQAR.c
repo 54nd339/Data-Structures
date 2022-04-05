@@ -59,35 +59,34 @@ int deQueue(struct Queue *queue){
     for (int i=ind; i<=queue->rear; i++)
         queue->arr[i] = queue->arr[i+1];
     queue->rear--;
-    if(queue->front>queue->rear)
+    if(queue->front > queue->rear)
         queue->front = queue->rear = -1;
     return val;
 }
 
 void main(){
-    int ch, val, prio;
     printf("Enter size of the queue : ");
-    scanf("%d",&val);
-    struct Queue *queue=createQueue(val);
+    int val, prio; scanf("%d",&val);
+    struct Queue *queue = createQueue(val);
     printf("1. Enqueue\n2. Dequeue\n3. Peek\n0. Exit\n");  
     while(1){  
         printf("\nEnter your choice : ");
-        scanf("%d",&ch);
-        if(ch==1){
+        int ch; scanf("%d",&ch);
+        if(ch == 1){
             printf("Enter the value and priority : ");
             scanf("%d%d",&val,&prio);
             enQueue(queue, val, prio);
         }
-        else if (ch==2){
+        else if (ch == 2){
             int val = deQueue(queue);
             if(val!=-1)
                 printf("Dequeued Element : %d\n",val);
         }
-        else if (ch==3){
+        else if (ch == 3){
             int val = (queue->arr[peek(queue)]).value;
             printf("Peeked Element : %d\n",val);
         }
-        else if (ch==0) break;
+        else if (ch == 0) break;
         else printf("Please Enter valid choice\n");
     }    
 }
