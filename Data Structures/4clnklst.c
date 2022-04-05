@@ -6,7 +6,7 @@ typedef struct node{
 }Node;
 typedef struct {
     int count;
-    Node *head,*tail;
+    Node *head, *tail;
 }LL;
 
 Node *newNode(LL *list, int info){
